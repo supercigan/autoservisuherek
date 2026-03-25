@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autoservis UHEREK — Jarošov, Uherské Hradiště</title>
+  <meta name="description" content="Autoservis UHEREK v Uherském Hradišti – Jarošově. Záruční i pozáruční servis, pneuservis, klimaservis, výměna autoskel, autopůjčovna a nehodový servis." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forge:       #1C2728;
+      --forge-mid:   #243032;
+      --forge-soft:  #2E3C3F;
+      --orange:      #E5601A;
+      --orange-d:    #C4511A;
+      --orange-l:    #FEF0E8;
+      --ash:         #F5F2EF;
+      --ash-d:       #EAE6E1;
+      --white:       #FFFFFF;
+      --text-dark:   #1A1E1F;
+      --text-mid:    #4A5558;
+      --text-light:  #7A8A8C;
+      --border:      #DED9D4;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 400;
+      color: var(--text-dark);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ─── TYPOGRAPHY ───────────────────────────────── */
+    h1,h2,h3,h4 { font-family: 'Rajdhani', sans-serif; font-weight: 700; line-height: 1.1; }
+    h1 { font-size: clamp(2.8rem, 6vw, 5rem); letter-spacing: 0.01em; }
+    h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); letter-spacing: 0.02em; }
+    h3 { font-size: 1.3rem; letter-spacing: 0.02em; }
+    p  { line-height: 1.7; color: var(--text-mid); }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: var(--orange);
+      flex-shrink: 0;
+    }
+
+    /* ─── LAYOUT HELPERS ───────────────────────────── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 90px 0; }
+
+    /* ─── BUTTONS ──────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      border-color: var(--orange);
+    }
+    .btn-primary:hover { background: var(--orange-d); border-color: var(--orange-d); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .btn-ghost:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+
+    /* ─── FADE UP ANIMATION ────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+    .d4 { transition-delay: 0.4s; }
+    .d5 { transition-delay: 0.5s; }
+    .d6 { transition-delay: 0.6s; }
+
+    /* ══════════════════════════════════════════════════
+       NAV
+    ══════════════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 24px;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    nav.scrolled {
+      background: var(--forge);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    }
+    .nav-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: var(--orange);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon svg { width: 22px; height: 22px; }
+    .logo-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+    .logo-text span { color: var(--orange); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    .nav-cta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--orange);
+      padding: 9px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--orange-d); }
+
+    /* hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: var(--forge);
+      padding: 24px;
+      z-index: 99;
+      border-top: 1px solid var(--forge-soft);
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--forge-soft);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ══════════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      background: var(--forge);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* diagonal stripe decoration */
+    .hero-stripe {
+      position: absolute;
+      top: 0; right: 0;
+      width: 55%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-stripe::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -120px;
+      width: 100%;
+      height: 120%;
+      background: linear-gradient(
+        135deg,
+        transparent 0%,
+        transparent 40%,
+        rgba(229, 96, 26, 0.06) 40%,
+        rgba(229, 96, 26, 0.06) 50%,
+        transparent 50%,
+        transparent 65%,
+        rgba(229, 96, 26, 0.04) 65%,
+        rgba(229, 96, 26, 0.04) 72%,
+        transparent 72%
+      );
+    }
+    .hero-stripe::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, var(--orange) 30%, var(--orange) 70%, transparent);
+      opacity: 0.3;
+    }
+
+    /* decorative corner gears/dots */
+    .hero-dots {
+      position: absolute;
+      bottom: 60px;
+      right: 60px;
+      width: 160px;
+      height: 160px;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(229, 96, 26, 0.15);
+      border: 1px solid rgba(229, 96, 26, 0.3);
+      border-radius: 2px;
+      padding: 6px 14px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 24px;
+    }
+    .hero-badge svg { width: 14px; height: 14px; }
+
+    .hero-title {
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .hero-title-sub {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      font-weight: 500;
+      color: var(--orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+    .hero-text {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 520px;
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* info panel */
+    .hero-panel {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 28px;
+      backdrop-filter: blur(4px);
+    }
+    .panel-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .panel-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+    }
+    .panel-row:last-child { margin-bottom: 0; }
+    .panel-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--orange);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .panel-row a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .panel-row a:hover { color: var(--orange); }
+    .panel-hours {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .panel-hours span:last-child { color: rgba(255,255,255,0.5); font-size: 0.88rem; }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'Source Sans 3', sans-serif;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll svg { width: 16px; height: 16px; }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ══════════════════════════════════════════════════
+       SERVICES
+    ══════════════════════════════════════════════════ */
+    #sluzby { background: var(--ash); }
+    .section-head {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-head .section-label { margin-bottom: 14px; }
+    .section-head .section-label::before { display: none; }
+    .section-head h2 { margin-bottom: 12px; }
+    .section-head p { max-width: 560px; margin: 0 auto; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .service-card {
+      background: var(--white);
+      padding: 36px 32px;
+      position: relative;
+      cursor: default;
+      transition: background 0.25s ease, transform 0.25s ease;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .service-card:hover { background: var(--ash); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--orange-l);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      transition: background 0.25s;
+    }
+    .service-icon svg { width: 24px; height: 24px; color: var(--orange); }
+    .service-card:hover .service-icon { background: var(--orange); }
+    .service-card:hover .service-icon svg { color: var(--white); }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.15rem;
+      color: var(--text-dark);
+    }
+    .service-card p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════════════════
+       DPF CALLOUT
+    ══════════════════════════════════════════════════ */
+    #dpf {
+      padding: 70px 0;
+      background: var(--forge-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    #dpf::before {
+      content: 'DPF';
+      position: absolute;
+      right: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.03);
+      pointer-events: none;
+      letter-spacing: 0.05em;
+    }
+    .dpf-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 48px;
+    }
+    .dpf-label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+    }
+    .dpf-inner h2 {
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .dpf-inner p {
+      color: rgba(255,255,255,0.6);
+      max-width: 560px;
+      font-size: 1rem;
+    }
+
+    /* ══════════════════════════════════════════════════
+       WHY US
+    ══════════════════════════════════════════════════ */
+    #proc-my { background: var(--white); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+      margin-top: 56px;
+    }
+    .why-card {
+      padding: 36px 28px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--ash);
+      position: relative;
+    }
+    .why-number {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--orange);
+      opacity: 0.25;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .why-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: var(--text-dark);
+    }
+    .why-card p { font-size: 0.92rem; }
+
+    /* ══════════════════════════════════════════════════
+       ABOUT
+    ══════════════════════════════════════════════════ */
+    #o-nas { background: var(--ash); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+    .about-left p {
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 28px;
+    }
+    .about-tag {
+      padding: 6px 14px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.04em;
+    }
+    .about-right {}
+    .contact-box {
+      background: var(--forge);
+      border-radius: 6px;
+      padding: 32px;
+      color: var(--white);
+    }
+    .contact-box-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .contact-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .contact-item:last-child { margin-bottom: 0; }
+    .contact-item-icon {
+      width: 38px; height: 38px;
+      background: rgba(229,96,26,0.15);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-item-icon svg { width: 18px; height: 18px; color: var(--orange); }
+    .contact-item-body {}
+    .contact-item-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 3px;
+    }
+    .contact-item-val {
+      font-size: 0.98rem;
+      color: rgba(255,255,255,0.9);
+    }
+    .contact-item-val a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-item-val a:hover { color: var(--orange); }
+
+    .hours-table {
+      margin-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.9rem;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { color: rgba(255,255,255,0.5); }
+    .hours-time { color: rgba(255,255,255,0.9); font-weight: 600; font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; }
+    .hours-closed { color: rgba(255,255,255,0.3); font-style: italic; font-size: 0.85rem; }
+
+    /* ══════════════════════════════════════════════════
+       CONTACT / FORM
+    ══════════════════════════════════════════════════ */
+    #kontakt { background: var(--white); }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .form-intro {}
+    .form-intro h2 { margin-bottom: 16px; }
+    .form-intro p { margin-bottom: 28px; }
+    .form-info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .form-info-list li {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.95rem;
+      color: var(--text-mid);
+    }
+    .form-info-list svg { width: 16px; height: 16px; color: var(--orange); flex-shrink: 0; }
+
+    form {}
+    .form-row { margin-bottom: 18px; }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 7px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      background: var(--white);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--orange); }
+    textarea { resize: vertical; min-height: 120px; }
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 12px;
+    }
+
+    /* ══════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════ */
+    footer {
+      background: var(--forge);
+      padding: 56px 0 32px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-bottom: 16px;
+    }
+    .footer-logo .logo-icon { width: 36px; height: 36px; }
+    .footer-logo .logo-icon svg { width: 20px; height: 20px; }
+    .footer-logo .logo-text { font-size: 1.45rem; }
+    .footer-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+    }
+    .footer-col-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 18px;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links a {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-contact-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-contact-item svg { width: 15px; height: 15px; color: var(--orange); margin-top: 2px; flex-shrink: 0; }
+    .footer-contact-item a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .footer-contact-item a:hover { color: var(--orange); }
+    .footer-bottom {
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ══════════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-panel { display: none; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .dpf-inner { grid-template-columns: 1fr; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 620px) {
+      section { padding: 64px 0; }
+      .services-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-row-2 { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; }
+      .hero-btns .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAV ══════════════════════════════════════════ -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="4"/>
+            <path d="M11 2v2M11 18v2M2 11h2M18 11h2M4.93 4.93l1.41 1.41M15.66 15.66l1.41 1.41M4.93 17.07l1.41-1.41M15.66 6.34l1.41-1.41"/>
+          </svg>
+        </div>
+        <div class="logo-text">UHEREK<span>.</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#sluzby">Služby</a></li>
+        <li><a href="#proc-my">Proč my</a></li>
+        <li><a href="#o-nas">O nás</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <a href="tel:+420777203666" class="nav-cta">+420 777 203 666</a>
+      <div class="hamburger" id="hamburger" role="button" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#sluzby"  onclick="closeMobile()">Služby</a>
+    <a href="#proc-my" onclick="closeMobile()">Proč my</a>
+    <a href="#o-nas"   onclick="closeMobile()">O nás</a>
+    <a href="#kontakt" onclick="closeMobile()">Kontakt</a>
+    <a href="tel:+420777203666">+420 777 203 666</a>
+  </div>
+
+  <!-- ══ HERO ══════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-stripe"></div>
+
+    <!-- decorative dot grid -->
+    <svg class="hero-dots" viewBox="0 0 160 160" fill="none">
+      <defs>
+        <pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="white"/>
+        </pattern>
+      </defs>
+      <rect width="160" height="160" fill="url(#dots)"/>
+    </svg>
+
+    <div class="container hero-content">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <div class="hero-badge fade-up">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M7 1l1.5 3.2L12 4.7l-2.5 2.4.6 3.4L7 9l-3.1 1.5.6-3.4L2 4.7l3.5-.5L7 1z"/>
+            </svg>
+            Uherské Hradiště · Jarošov
+          </div>
+          <h1 class="hero-title fade-up d1">
+            Autoservis<br />UHEREK
+          </h1>
+          <div class="hero-title-sub fade-up d2">
+            Opravíme nebo poradíme
+          </div>
+          <p class="hero-text fade-up d3">
+            Jsme tu pro vás a vaše auto. Záruční i pozáruční servis, pneuservis, klimaservis, výměna autoskel a autopůjčovna — vše na jednom místě v Jarošově.
+          </p>
+          <div class="hero-btns fade-up d4">
+            <a href="#kontakt" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M14 10.67c0 .23-.05.45-.15.67-.1.22-.24.43-.43.61a2.25 2.25 0 01-1.55.58c-.4 0-.83-.1-1.28-.29a12.87 12.87 0 01-1.29-.7 21.55 21.55 0 01-1.23-1.01 21.2 21.2 0 01-1-1.23 12.87 12.87 0 01-.69-1.28C6.1 7.5 6 7.07 6 6.67c0-.39.08-.76.24-1.1.16-.34.4-.65.7-.91C7.35 4.24 7.75 4 8.17 4c.17 0 .34.04.49.11.15.07.28.18.38.34l1.32 1.86c.1.14.18.27.24.4.06.13.09.25.09.36 0 .14-.04.28-.12.42-.08.14-.19.28-.33.42l-.45.47c-.06.07-.09.15-.09.24 0 .05.01.09.02.13.02.05.04.08.06.12.1.19.28.44.52.73.25.3.51.6.79.89.29.28.58.54.88.78.29.24.54.41.74.51.03.01.07.03.11.04.05.02.1.02.15.02.1 0 .18-.03.25-.1l.45-.46c.14-.14.28-.25.42-.33.14-.08.28-.12.42-.12.12 0 .23.02.36.08.13.06.27.14.41.25l1.88 1.35c.16.1.27.23.34.38.06.16.1.33.1.5z"/>
+              </svg>
+              Zavolat
+            </a>
+            <a href="#sluzby" class="btn btn-ghost">
+              Prohlédnout služby
+            </a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-panel fade-up d3">
+            <div class="panel-title">Kontakt & otevírací doba</div>
+            <div class="panel-row">
+              <svg class="panel-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M15.7 11.67c0 .23-.05.45-.15.67-.1.22-.24.43-.43.61a2.25 2.25 0 01-1.55.58c-.4 0-.83-.1-1.28-.29a12.87 12.87 0 01-1.29-.7 21.55 21.55 0 01-1.23-1.01 21.2 21.2 0 01-1-1.23 12.87 12.87 0 01-.69-1.28C7.8 8.5 7.7 8.07 7.7 7.67c0-.39.08-.76.24-1.1.16-.34.4-.65.7-.91C9.05 5.24 9.45 5 9.87 5c.17 0 .34.04.49.11.15.07.28.18.38.34l1.32 1.86c.1.14.18.27.24.4.06.13.09.25.09.36 0 .14-.04.28-.12.42-.08.14-.19.28-.33.42l-.45.47c-.06.07-.09.15-.09.24 0 .05.01.09.02.13.02.05.04.08.06.12.1.19.28.44.52.73.25.3.51.6.79.89.29.28.58.54.88.78.29.24.54.41.74.51.03.01.07.03.11.04.05.02.1.02.15.02.1 0 .18-.03.25-.1l.45-.46c.14-.14.28-.25.42-.33.14-.08.28-.12.42-.12.12 0 .23.02.36.08.13.06.27.14.41.25l1.88 1.35c.16.1.27.23.34.38.06.16.1.33.1.5z"/>
+              </svg>
+              <div>
+                <a href="tel:+420777203666">+420 777 203 666</a>
+              </div>
+            </div>
+            <div class="panel-row">
+              <svg class="panel-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6">
+                <rect x="2" y="4" width="14" height="11" rx="1.5"/>
+                <path d="M2 7l7 5 7-5"/>
+              </svg>
+              <div>
+                <a href="mailto:info@autoservisuherek.cz">info@autoservisuherek.cz</a>
+              </div>
+            </div>
+            <div class="panel-row">
+              <svg class="panel-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M9 2a5 5 0 00-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 00-5-5z"/>
+                <circle cx="9" cy="7" r="1.8"/>
+              </svg>
+              <div>Pivovarská 273,<br />686 01 Jarošov, UH</div>
+            </div>
+            <div class="panel-row" style="flex-direction:column;gap:8px;">
+              <div class="panel-hours">
+                <span>Pondělí – Pátek</span>
+                <span>8:00 – 17:00</span>
+              </div>
+              <div class="panel-hours">
+                <span>Sobota – Neděle</span>
+                <span class="" style="color:rgba(255,255,255,0.3);font-size:.85rem;">Zavřeno</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M3 6l5 5 5-5"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══ SERVICES ══════════════════════════════════════ -->
+  <section id="sluzby">
+    <div class="container">
+      <div class="section-head fade-up">
+        <div class="section-label">Co umíme</div>
+        <h2>Naše služby</h2>
+        <p>Komplexní péče o vaše auto — od pravidelného servisu až po pneuservis a autopůjčovnu.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card fade-up d1">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <h3>Autoservis</h3>
+          <p>Záruční i pozáruční servis, příprava na STK, diagnostika vozidel originální diagnostikou VW a ŠKODA.</p>
+        </div>
+
+        <div class="service-card fade-up d2">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/>
+              <path d="M12 6v6l4 2"/>
+              <path d="M8.5 2.5L7 4M15.5 2.5L17 4M21.5 8.5L20 10M21.5 15.5L20 14M2.5 8.5L4 10M2.5 15.5L4 14M8.5 21.5L7 20M15.5 21.5L17 20"/>
+            </svg>
+          </div>
+          <h3>Klimaservis</h3>
+          <p>Doplnění chladiva, kompletní servis a dezinfekce klimatizací ve vozidlech.</p>
+        </div>
+
+        <div class="service-card fade-up d3">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12l2 2 4-4"/>
+              <path d="M12 2L3 7v5c0 5.25 3.75 10.2 9 11.4C17.25 22.2 21 17.25 21 12V7l-9-5z"/>
+            </svg>
+          </div>
+          <h3>Pojištění aut</h3>
+          <p>Kompletní nehodový servis včetně zapůjčení náhradního vozidla a vyřízení formalit na pojišťovně.</p>
+        </div>
+
+        <div class="service-card fade-up d1">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+            </svg>
+          </div>
+          <h3>Pneuservis</h3>
+          <p>Přezutí, vyvážení ALU i ocelových kol, opravy defektů. Možnost uskladnění zimních a letních pneu.</p>
+        </div>
+
+        <div class="service-card fade-up d2">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/>
+              <rect x="9" y="11" width="14" height="10" rx="2"/>
+              <circle cx="12" cy="20" r="1"/><circle cx="20" cy="20" r="1"/>
+            </svg>
+          </div>
+          <h3>Autopůjčovna</h3>
+          <p>Zapůjčíme vám auto na krátkou i delší dobu. Vždy se domluvíme na podmínkách dle vašich potřeb.</p>
+        </div>
+
+        <div class="service-card fade-up d3">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="20" height="14" rx="2"/>
+              <path d="M8 6V4a2 2 0 014 0v2"/>
+              <line x1="12" y1="11" x2="12" y2="15"/>
+              <line x1="10" y1="13" x2="14" y2="13"/>
+            </svg>
+          </div>
+          <h3>Výměna autoskel</h3>
+          <p>Výměny a opravy autoskel, lepení, posouzení nejlepšího řešení prasklin a dalších závad.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ DPF CALLOUT ══════════════════════════════════ -->
+  <section id="dpf">
+    <div class="container">
+      <div class="dpf-inner">
+        <div class="fade-up">
+          <div class="dpf-label">Partnerská služba</div>
+          <h2 style="color:var(--white);">Čištění DPF filtrů</h2>
+          <p style="color:rgba(255,255,255,0.6);max-width:560px;margin-top:12px;">
+            Spolupracujeme s DPF Premium — specialisty na výměny a čištění filtrů pevných částic. Poradíme vám s nejlepším řešením pro váš motor.
+          </p>
+        </div>
+        <div class="fade-up d2">
+          <a href="https://www.dpf-premium.cz/" target="_blank" rel="noopener" class="btn btn-primary">
+            dpf-premium.cz
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M2 7h10M7 2l5 5-5 5"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ WHY US ════════════════════════════════════════ -->
+  <section id="proc-my">
+    <div class="container">
+      <div class="section-head fade-up">
+        <div class="section-label">Proč si vybrat nás</div>
+        <h2>Co nás odlišuje</h2>
+        <p>Jsme malý servis s osobním přístupem. Každý zákazník dostane čas, pozornost a poctivou práci.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card fade-up d1">
+          <div class="why-number">01</div>
+          <h3>Osobní přístup</h3>
+          <p>Mluvíte přímo s mechanikem. Vysvětlíme vám co a proč — bez zbytečného žargonu a přehnaných účtů.</p>
+        </div>
+        <div class="why-card fade-up d2">
+          <div class="why-number">02</div>
+          <h3>VW & ŠKODA diagnostika</h3>
+          <p>Originální diagnostické vybavení koncernu Volkswagen. Přesná diagnostika bez hádání a zbytečných oprav.</p>
+        </div>
+        <div class="why-card fade-up d3">
+          <div class="why-number">03</div>
+          <h3>Komplexní péče</h3>
+          <p>Od servisu a STK přes pneuservis až po zapůjčení náhradního vozidla — vše na jednom místě v Jarošově.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ABOUT ═════════════════════════════════════════ -->
+  <section id="o-nas">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-left fade-up">
+          <div class="section-label">O nás</div>
+          <h2>Autoservis s tradicí v Jarošově</h2>
+          <p>Jsme rodinný autoservis s provozovnou v Uherském Hradišti – Jarošově. Najdete nás před vjezdem do bývalého pivovaru, na adrese Pivovarská 273.</p>
+          <p>Provozujeme záruční i pozáruční servis osobních a dodávkových vozidel. Disponujeme originální diagnostikou koncernu VW a ŠKODA — diagnostikujeme přesně, opravujeme poctivě.</p>
+          <p>Naší prioritou je spokojenost zákazníka a transparentní komunikace. Vždy vysvětlíme stav vozidla a doporučíme optimální řešení.</p>
+          <div class="about-tags">
+            <span class="about-tag">VW diagnostika</span>
+            <span class="about-tag">ŠKODA diagnostika</span>
+            <span class="about-tag">STK příprava</span>
+            <span class="about-tag">DPF partner</span>
+            <span class="about-tag">Plátce DPH</span>
+            <span class="about-tag">IČ: 02701481</span>
+          </div>
+        </div>
+        <div class="about-right fade-up d2">
+          <div class="contact-box">
+            <div class="contact-box-title">Kontakt & provozovna</div>
+            <div class="contact-item">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M9 2a5 5 0 00-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 00-5-5z"/>
+                  <circle cx="9" cy="7" r="1.8"/>
+                </svg>
+              </div>
+              <div class="contact-item-body">
+                <div class="contact-item-label">Adresa</div>
+                <div class="contact-item-val">Pivovarská 273<br />686 01 Uherské Hradiště – Jarošov</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M15.7 11.67c0 .23-.05.45-.15.67-.1.22-.24.43-.43.61a2.25 2.25 0 01-1.55.58c-.4 0-.83-.1-1.28-.29a12.87 12.87 0 01-1.29-.7 21.55 21.55 0 01-1.23-1.01 21.2 21.2 0 01-1-1.23 12.87 12.87 0 01-.69-1.28C7.8 8.5 7.7 8.07 7.7 7.67c0-.39.08-.76.24-1.1.16-.34.4-.65.7-.91C9.05 5.24 9.45 5 9.87 5c.17 0 .34.04.49.11.15.07.28.18.38.34l1.32 1.86c.1.14.18.27.24.4.06.13.09.25.09.36 0 .14-.04.28-.12.42-.08.14-.19.28-.33.42l-.45.47c-.06.07-.09.15-.09.24 0 .05.01.09.02.13.02.05.04.08.06.12.1.19.28.44.52.73.25.3.51.6.79.89.29.28.58.54.88.78.29.24.54.41.74.51.03.01.07.03.11.04.05.02.1.02.15.02.1 0 .18-.03.25-.1l.45-.46c.14-.14.28-.25.42-.33.14-.08.28-.12.42-.12.12 0 .23.02.36.08.13.06.27.14.41.25l1.88 1.35c.16.1.27.23.34.38.06.16.1.33.1.5z"/>
+                </svg>
+              </div>
+              <div class="contact-item-body">
+                <div class="contact-item-label">Telefon</div>
+                <div class="contact-item-val"><a href="tel:+420777203666">+420 777 203 666</a></div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <rect x="2" y="4" width="14" height="11" rx="1.5"/>
+                  <path d="M2 7l7 5 7-5"/>
+                </svg>
+              </div>
+              <div class="contact-item-body">
+                <div class="contact-item-label">E-mail</div>
+                <div class="contact-item-val"><a href="mailto:info@autoservisuherek.cz">info@autoservisuherek.cz</a></div>
+              </div>
+            </div>
+            <div class="hours-table">
+              <div class="hours-row">
+                <span class="hours-day">Pondělí</span>
+                <span class="hours-time">8:00 – 17:00</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Úterý</span>
+                <span class="hours-time">8:00 – 17:00</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Středa</span>
+                <span class="hours-time">8:00 – 17:00</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Čtvrtek</span>
+                <span class="hours-time">8:00 – 17:00</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Pátek</span>
+                <span class="hours-time">8:00 – 17:00</span>
+              </div>
+              <div class="hours-row">
+                <span class="hours-day">Sobota – Neděle</span>
+                <span class="hours-closed">Zavřeno</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACT FORM ══════════════════════════════════ -->
+  <section id="kontakt">
+    <div class="container">
+      <div class="form-grid">
+        <div class="form-intro fade-up">
+          <div class="section-label">Napište nám</div>
+          <h2>Domluvte se na servisu</h2>
+          <p>Vyplňte formulář a ozveme se vám zpět co nejdříve. Případně nás rovnou zavolejte.</p>
+          <ul class="form-info-list" style="margin-top:28px;">
+            <li>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M13.6 10.7c0 .2-.04.4-.13.58-.1.19-.22.37-.38.53a1.95 1.95 0 01-1.34.5c-.35 0-.72-.08-1.11-.25a11.2 11.2 0 01-1.12-.6 18.7 18.7 0 01-1.07-.88 18.4 18.4 0 01-.87-1.06 11.2 11.2 0 01-.6-1.11A3 3 0 016.4 7.3c0-.34.07-.66.2-.95.14-.3.35-.57.62-.8.28-.24.59-.35.92-.35.13 0 .26.03.38.1.12.06.23.15.31.28l1.14 1.6c.09.13.16.24.2.35.05.1.08.2.08.3 0 .12-.03.24-.1.36-.07.12-.17.24-.3.36l-.38.4c-.06.07-.08.14-.08.22 0 .04 0 .08.01.11.02.04.03.07.05.1.08.17.24.38.45.63.22.26.44.52.68.77.25.24.5.47.76.67.25.2.47.36.64.44.03.01.06.02.1.04.04.01.08.02.13.02.08 0 .16-.03.22-.09l.38-.4c.13-.13.25-.22.37-.29.12-.07.24-.1.37-.1.1 0 .2.02.3.07.11.05.23.12.36.22l1.62 1.17c.14.09.23.2.3.33.05.14.08.28.08.44z"/>
+              </svg>
+              <a href="tel:+420777203666" style="color:var(--text-mid);text-decoration:none;">+420 777 203 666</a>
+            </li>
+            <li>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="1" y="3" width="14" height="10" rx="1.5"/>
+                <path d="M1 6l7 4.5L15 6"/>
+              </svg>
+              <a href="mailto:info@autoservisuherek.cz" style="color:var(--text-mid);text-decoration:none;">info@autoservisuherek.cz</a>
+            </li>
+            <li>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M8 2a4 4 0 00-4 4c0 3 4 8 4 8s4-5 4-8a4 4 0 00-4-4z"/>
+                <circle cx="8" cy="6" r="1.5"/>
+              </svg>
+              Pivovarská 273, 686 01 Jarošov
+            </li>
+          </ul>
+        </div>
+        <div class="fade-up d2">
+          <form id="contactForm" onsubmit="handleSubmit(event)">
+            <div class="form-row-2">
+              <div>
+                <label for="name">Jméno a příjmení</label>
+                <input type="text" id="name" name="name" placeholder="Jan Novák" required />
+              </div>
+              <div>
+                <label for="phone">Telefon</label>
+                <input type="tel" id="phone" name="phone" placeholder="+420 xxx xxx xxx" />
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="jan@example.cz" required />
+            </div>
+            <div class="form-row">
+              <label for="service">Typ služby</label>
+              <select id="service" name="service">
+                <option value="">– Vyberte službu –</option>
+                <option>Autoservis</option>
+                <option>Pneuservis</option>
+                <option>Klimaservis</option>
+                <option>Výměna autoskel</option>
+                <option>Pojištění / Nehodový servis</option>
+                <option>Autopůjčovna</option>
+                <option>DPF filtry</option>
+                <option>Jiné</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="vehicle">Vozidlo (volitelné)</label>
+              <input type="text" id="vehicle" name="vehicle" placeholder="např. Škoda Octavia 2.0 TDI, 2018" />
+            </div>
+            <div class="form-row">
+              <label for="message">Zpráva</label>
+              <textarea id="message" name="message" placeholder="Popište váš požadavek..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+              Odeslat zprávu
+            </button>
+            <p class="form-note">Zpravidla odpovídáme do 24 hodin v pracovní dny.</p>
+          </form>
+          <div id="formSuccess" style="display:none;padding:32px;background:var(--ash);border:1px solid var(--border);border-radius:6px;text-align:center;">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="var(--orange)" stroke-width="2.5" style="margin:0 auto 16px;display:block;">
+              <circle cx="24" cy="24" r="22"/>
+              <path d="M14 24l7 7 13-13"/>
+            </svg>
+            <h3 style="margin-bottom:8px;font-family:'Rajdhani';font-size:1.3rem;">Zpráva odeslána!</h3>
+            <p style="font-size:0.95rem;">Děkujeme za váš zájem. Ozveme se vám co nejdříve.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#hero" class="footer-logo logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 22 22" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="4"/>
+                <path d="M11 2v2M11 18v2M2 11h2M18 11h2M4.93 4.93l1.41 1.41M15.66 15.66l1.41 1.41M4.93 17.07l1.41-1.41M15.66 6.34l1.41-1.41"/>
+              </svg>
+            </div>
+            <div class="logo-text">UHEREK<span>.</span></div>
+          </a>
+          <p class="footer-desc">Autoservis Luboš Uherek — rodinný servis v Uherském Hradišti – Jarošově. Poctivá práce od roku 2014.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Navigace</div>
+          <ul class="footer-links">
+            <li><a href="#sluzby">Služby</a></li>
+            <li><a href="#proc-my">Proč my</a></li>
+            <li><a href="#o-nas">O nás</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Kontakt</div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M13.2 9.7c0 .2-.04.38-.13.55-.09.18-.21.35-.37.5-.27.24-.55.36-.85.36-.22 0-.45-.05-.7-.16-.25-.1-.5-.25-.77-.43-.27-.18-.55-.38-.83-.62a14.8 14.8 0 01-.83-.88 14.8 14.8 0 01-.62-.83 8.4 8.4 0 01-.43-.77 2.7 2.7 0 01-.16-.68c0-.2.04-.38.12-.55.08-.17.2-.32.37-.45.28-.22.58-.33.9-.33.12 0 .24.03.35.08.11.06.21.15.29.27l1.03 1.46c.08.11.14.21.18.31.04.1.07.19.07.27 0 .11-.03.22-.09.33-.06.11-.15.22-.27.33l-.36.37c-.05.06-.07.12-.07.19 0 .04 0 .07.01.1.01.03.03.06.04.09.09.15.22.34.4.55.18.22.38.44.59.65.21.21.43.4.65.58.21.18.4.32.55.4l.08.04c.03.01.07.02.11.02.07 0 .14-.03.19-.08l.37-.37c.11-.11.22-.19.33-.25.11-.06.21-.09.33-.09.09 0 .18.02.28.06.1.04.2.11.32.2l1.48 1.05c.12.08.2.18.26.3.05.12.08.25.08.4z"/>
+            </svg>
+            <a href="tel:+420777203666">+420 777 203 666</a>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6">
+              <rect x="1" y="3" width="13" height="9" rx="1"/>
+              <path d="M1 5.5l6.5 4 6.5-4"/>
+            </svg>
+            <a href="mailto:info@autoservisuherek.cz">info@autoservisuherek.cz</a>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M7.5 1.5a4 4 0 00-4 4C3.5 8.5 7.5 13.5 7.5 13.5s4-5 4-8a4 4 0 00-4-4z"/>
+              <circle cx="7.5" cy="5.5" r="1.5"/>
+            </svg>
+            Pivovarská 273, 686 01 Jarošov
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2014 – 2026 Autoservis Luboš Uherek · IČ: 02701481</span>
+        <span>Uherské Hradiště – Jarošov</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══ JS ════════════════════════════════════════════ -->
+  <script>
+    /* NAV scroll */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    /* hamburger */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    function closeMobile() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+
+    /* fade-up on scroll */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    /* form submit */
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
